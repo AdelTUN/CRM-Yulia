@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/CRM-Yulia/static/css/main.7e005632.css",
+    "main.js": "/CRM-Yulia/static/js/main.986a8760.js",
+    "index.html": "/CRM-Yulia/index.html",
+    "main.7e005632.css.map": "/CRM-Yulia/static/css/main.7e005632.css.map",
+    "main.986a8760.js.map": "/CRM-Yulia/static/js/main.986a8760.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7e005632.css",
+    "static/js/main.986a8760.js"
+  ]
+}
