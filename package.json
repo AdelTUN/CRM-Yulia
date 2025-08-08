@@ -1,7 +1,6 @@
 {
   "name": "tour-agent-crm",
   "version": "1.0.0",
-  "homepage": "https://adeltun.github.io/CRM-Yulia",
   "private": true,
   "dependencies": {
     "@types/node": "^16.18.0",

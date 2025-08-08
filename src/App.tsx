@@ -11,7 +11,7 @@ import Commission from './components/Commission';
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Layout>
         <Routes>
           <Route path="/" element={<Dashboard />} />
