@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Search, 
   Plus, 
@@ -32,6 +32,35 @@ const Customers: React.FC = () => {
     address: '',
     status: 'active'
   });
+
+  // Load customers from localStorage on component mount
+  useEffect(() => {
+    const savedCustomers = localStorage.getItem('crm-customers');
+    if (savedCustomers) {
+      try {
+        const parsedCustomers = JSON.parse(savedCustomers);
+        // Convert date strings back to Date objects
+        const customersWithDates = parsedCustomers.map((customer: any) => ({
+          ...customer,
+          createdAt: new Date(customer.createdAt),
+          lastContact: new Date(customer.lastContact)
+        }));
+        setCustomers(customersWithDates);
+      } catch (error) {
+        console.error('Error loading customers from localStorage:', error);
+        // If there's an error, use the default mock data
+        setCustomers(mockCustomers);
+      }
+    } else {
+      // If no saved data, initialize with mock data
+      localStorage.setItem('crm-customers', JSON.stringify(mockCustomers));
+    }
+  }, []);
+
+  // Save customers to localStorage whenever customers state changes
+  useEffect(() => {
+    localStorage.setItem('crm-customers', JSON.stringify(customers));
+  }, [customers]);
 
   const filteredCustomers = customers.filter(customer => {
     const matchesSearch = customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -113,13 +142,28 @@ const Customers: React.FC = () => {
           <h1 className="text-2xl font-bold text-gray-900">Customers</h1>
           <p className="text-gray-600 mt-1">Manage your customer relationships and track interactions.</p>
         </div>
-        <button 
-          onClick={() => setShowAddModal(true)}
-          className="btn-primary mt-4 sm:mt-0 flex items-center"
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Add Customer
-        </button>
+        <div className="flex space-x-3 mt-4 sm:mt-0">
+          <button 
+            onClick={() => {
+              if (window.confirm('Reset to default data? This will remove all custom changes.')) {
+                localStorage.removeItem('crm-customers');
+                setCustomers(mockCustomers);
+              }
+            }}
+            className="btn-secondary flex items-center"
+            title="Reset to default data"
+          >
+            <Users className="w-4 h-4 mr-2" />
+            Reset
+          </button>
+          <button 
+            onClick={() => setShowAddModal(true)}
+            className="btn-primary flex items-center"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Add Customer
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -270,7 +314,7 @@ const Customers: React.FC = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Active Customers</p>
               <p className="text-2xl font-bold text-gray-900">
-                {mockCustomers.filter(c => c.status === 'active').length}
+                {customers.filter(c => c.status === 'active').length}
               </p>
             </div>
           </div>
@@ -284,7 +328,7 @@ const Customers: React.FC = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Prospects</p>
               <p className="text-2xl font-bold text-gray-900">
-                {mockCustomers.filter(c => c.status === 'prospect').length}
+                {customers.filter(c => c.status === 'prospect').length}
               </p>
             </div>
           </div>
@@ -297,7 +341,7 @@ const Customers: React.FC = () => {
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Total Customers</p>
-              <p className="text-2xl font-bold text-gray-900">{mockCustomers.length}</p>
+              <p className="text-2xl font-bold text-gray-900">{customers.length}</p>
             </div>
           </div>
         </div>
