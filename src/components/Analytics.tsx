@@ -11,7 +11,7 @@ import { mockBookings, mockCustomers, mockTours } from '../data/mockData';
 
 const Analytics: React.FC = () => {
   const totalRevenue = mockBookings.reduce((sum, booking) => sum + booking.totalPrice, 0);
-  const confirmedBookings = mockBookings.filter(b => b.status === 'confirmed' || b.status === 'completed');
+  // const confirmedBookings = mockBookings.filter(b => b.status === 'confirmed' || b.status === 'completed');
   
   const monthlyData = [
     { month: 'Jan', bookings: 12, revenue: 2400 },
