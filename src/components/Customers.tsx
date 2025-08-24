@@ -30,7 +30,7 @@ const Customers: React.FC = () => {
     email: '',
     phone: '',
     address: '',
-    status: 'active'
+    status: 'active' as 'active' | 'inactive' | 'prospect'
   });
 
   // Load customers from localStorage on component mount
@@ -105,7 +105,7 @@ const Customers: React.FC = () => {
     ));
     setShowEditModal(false);
     setSelectedCustomer(null);
-    setFormData({ name: '', email: '', phone: '', address: '', status: 'active' });
+    setFormData({ name: '', email: '', phone: '', address: '', status: 'active' as 'active' | 'inactive' | 'prospect' });
   };
 
   const handleAddCustomer = () => {
@@ -118,7 +118,7 @@ const Customers: React.FC = () => {
     };
     setCustomers([...customers, newCustomer]);
     setShowAddModal(false);
-    setFormData({ name: '', email: '', phone: '', address: '', status: 'active' });
+    setFormData({ name: '', email: '', phone: '', address: '', status: 'active' as 'active' | 'inactive' | 'prospect' });
   };
 
   const getStatusColor = (status: string) => {
@@ -406,7 +406,7 @@ const Customers: React.FC = () => {
                 <select 
                   className="input-field"
                   value={formData.status}
-                  onChange={(e) => setFormData({...formData, status: e.target.value})}
+                  onChange={(e) => setFormData({...formData, status: e.target.value as 'active' | 'inactive' | 'prospect'})}
                 >
                   <option value="active">Active</option>
                   <option value="prospect">Prospect</option>
@@ -554,7 +554,7 @@ const Customers: React.FC = () => {
                 <select 
                   className="input-field"
                   value={formData.status}
-                  onChange={(e) => setFormData({...formData, status: e.target.value})}
+                  onChange={(e) => setFormData({...formData, status: e.target.value as 'active' | 'inactive' | 'prospect'})}
                 >
                   <option value="active">Active</option>
                   <option value="prospect">Prospect</option>
